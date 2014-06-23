@@ -1,0 +1,66 @@
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    console.log("start");
+    console.log($('form#email_form'));
+    /*$(window).bind("load", function() {
+   	// code here
+`   	$('form#email_form').on('submit', function (e) {
+	    console.log('on submit');
+   	    //ajax call here
+	    send_form();
+   	    //stop form submission
+   	    e.preventDefault();
+   	});
+
+    });*/ 
+    function initJS() {
+	console.log("initJS");
+    	$('form#email_form').on('submit', function (e) {
+	    console.log('on submit');
+	    send_form();
+   	    //stop form submission
+   	    e.preventDefault();
+    	});   
+    }
+    function send_form() {
+	console.log("got here");
+ 	var payload = {};
+        $.each($('form#email_form').serializeArray(), 
+	       function(i, field) {
+    		   payload[field.name] = field.value;
+	       }); 
+	$.ajax({
+    		url: '/email',
+    		type: 'POST',
+    		data: JSON.stringify(payload),
+    		contentType: 'application/json; charset=utf-8',
+    		async: false,
+    		success: function(msg) {
+    		    alert(msg);
+    		},
+		error: function(jqXHR, statusText, errorText) {
+		    alert(jqXHR.responseText);
+		}
+	});
+	return false;
+    }
+    // send json
+
+    // if success --> clear form data & display message
+    // if failure --> don't clear data & display errors
+  </script>
+</head>
+
+<body onload="initJS()">
+  <form action="/" name="f" id="email_form">
+    <span class="label">To:</span> <input type="email" name="to_email"> 
+    <span class="label">To Name:</span> <input type="text" name="to_name"> 
+    <span class="label">From:</span> <input type="email" name="from_email">  ­ 
+    <span class="label">From Name:</span> <input type="text" name="from_name">  ­ 
+    <span class="label">Subject:</span> <input type="text" name="subject">  ­ 
+    <!--<span class="label">Body:</span> <input type="text" name="body">-->  ­ 
+    <span class="label">Body:</span> <textarea type="text" name="body"></textarea> ­ 
+    <input type="submit" value="Submit">
+ </form>
+</body>
