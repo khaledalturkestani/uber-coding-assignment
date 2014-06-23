@@ -40,7 +40,6 @@ mandrill_key = "qgGuBRiAtGhrL-vvzjTOmg"
 def shutdown_session(exception=None):
     db_session.remove()
 
-
 @app.route("/")
 def display_form():
     return render_template("form.html")
@@ -65,8 +64,6 @@ def send_email():
     
     # Mailgun failed -- Send via Mailgun:
     mandrill_response = send_via_mandrill(email_fields)
-    print "-------------------- Mandrill:"
-    print mandrill_response
     if mandrill_response[0]["status"] == "sent":
 	email_fields["service"] = "mandrill"
 	email_fields["service_response"] = json.dumps(mandrill_response[0])
@@ -124,7 +121,6 @@ def validate_email_fields(f,errors):
 
     except KeyError:
 	errors.append("Error: Missing some email fields.")
-	print "----------------------------------------------- KeyError"
 	return False
 
 def is_valid_email(email):

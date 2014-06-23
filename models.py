@@ -19,12 +19,10 @@ class SentEmail(Base):
     # TODO: check regex
     @validates("to_email", "from_email")
     def validate_email(self, key, address):
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", address):
-            return False
-        return True
+        assert re.match(r"[^@]+@[^@]+\.[^@]+", address)
+        return address
 
     def __init__(self, to_name, to_email, from_name, from_email, subject, body, service, service_response):
-	print "to_email: " + to_email
         self.to_name = to_name
         self.to_email = to_email
         self.from_name = from_name
