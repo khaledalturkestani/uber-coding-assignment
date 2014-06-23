@@ -51,16 +51,16 @@ def send_email():
     fields_validated = validate_email_fields(email_fields, errors)
 
     # Return 400 status if fields are not valid
-#    if not fields_validated:
-#    	return make_response(json.dumps(errors), "400", {})
+    if not fields_validated:
+    	return make_response(json.dumps(errors), "400", {})
 
     # Send via Mailgun first:
-#    mailgun_response = send_via_mailgun(email_fields)
-#    if mailgun_response == 200:
-#	email_fields["service"] = "mailgun"
-#	email_fields["service_response"] = json.dumps(mailgun_response.json())
-#	save_to_db(email_fields)
-#    	return make_response()
+    mailgun_response = send_via_mailgun(email_fields)
+    if mailgun_response == 200:
+	email_fields["service"] = "mailgun"
+	email_fields["service_response"] = json.dumps(mailgun_response.json())
+	save_to_db(email_fields)
+    	return make_response()
     
     # Mailgun failed -- Send via Mailgun:
     mandrill_response = send_via_mandrill(email_fields)

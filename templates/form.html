@@ -1,8 +1,9 @@
 <head>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.js"></script>
   <script type="text/javascript">
-    console.log("start");
-    console.log($('form#email_form'));
+    //console.log("start");
+    //console.log($('form#email_form'));
     /*$(window).bind("load", function() {
    	// code here
 `   	$('form#email_form').on('submit', function (e) {
@@ -13,7 +14,25 @@
    	    e.preventDefault();
    	});
 
-    });*/ 
+    }); 
+    $("form#email_form").validate({
+  	rules: {
+  	    to_email: {
+      		required: true,
+		email: true
+    	    }
+  	}
+    });*/
+    $(document).ready(function() {
+       $( "#to_name" ).rules( "add", {
+      	    required: true,
+  	    minlength: 2,
+  	    messages: {
+    	    	required: "Required input",
+    	    	minlength: jQuery.validator.format("Please, at least {0} characters are necessary")
+  	    }
+    	});
+    });
     function initJS() {
 	console.log("initJS");
     	$('form#email_form').on('submit', function (e) {
@@ -21,8 +40,9 @@
 	    send_form();
    	    //stop form submission
    	    e.preventDefault();
-    	});   
+    	}); 
     }
+
     function send_form() {
 	console.log("got here");
  	var payload = {};
@@ -55,7 +75,7 @@
 <body onload="initJS()">
   <form action="/" name="f" id="email_form">
     <span class="label">To:</span> <input type="email" name="to_email"> 
-    <span class="label">To Name:</span> <input type="text" name="to_name"> 
+    <span class="label">To Name:</span> <input type="text" id="to_name" name="to_name"> 
     <span class="label">From:</span> <input type="email" name="from_email">  ­ 
     <span class="label">From Name:</span> <input type="text" name="from_name">  ­ 
     <span class="label">Subject:</span> <input type="text" name="subject">  ­ 
